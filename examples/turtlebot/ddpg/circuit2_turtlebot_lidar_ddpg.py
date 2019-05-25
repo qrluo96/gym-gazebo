@@ -26,7 +26,7 @@ def clear_monitor_files(training_dir):
         print(file)
         os.unlink(file)
 
-EPISODES = 100000
+EPISODES = 1000
 TEST = 10
 def main():
     #REMEMBER!: turtlebot_nn_setup.bash must be executed.
@@ -42,7 +42,7 @@ def main():
     resume_path = path + resume_epoch
     monitor_path = resume_path
 
-    steps = 100000
+    steps = 1000
 
     env._max_episode_steps = steps
     # env = gym.wrappers.Monitor(env, outdir,force=not continue_execution, resume=continue_execution)
