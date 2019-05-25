@@ -75,7 +75,5 @@ def main():
 
     env.monitor.close()
 
-
-
 if __name__ == '__main__':
     main()
