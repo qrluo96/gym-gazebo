@@ -72,6 +72,7 @@ def main():
                         break
             ave_reward = total_reward/TEST
             print ('episode: ',episode,'Evaluation Average Reward:',ave_reward)
+            plotter.plot(env)
 
     env.monitor.close()
 
