@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 
-'''
-Based on:
-https://github.com/vmayoral/basic_reinforcement_learning
-https://gist.github.com/wingedsheep/4199594b02138dd427c22a540d6d6b8d
-'''
 import gym
 from gym import wrappers
 import gym_gazebo
@@ -15,17 +10,6 @@ import os
 import json
 import liveplot
 from ddpg import *
-
-def detect_monitor_files(training_dir):
-    return [os.path.join(training_dir, f) for f in os.listdir(training_dir) if f.startswith('openaigym')]
-
-def clear_monitor_files(training_dir):
-    files = detect_monitor_files(training_dir)
-    if len(files) == 0:
-        return
-    for file in files:
-        print(file)
-        os.unlink(file)
 
 EPOCHS = 1000
 TEST = 10
@@ -99,23 +83,6 @@ def main():
         if epoch % 100 == 0:
             plotter.plot(env)
 
-        # # Testing:
-        # if epoch % 100 == 0 and epoch > 100:
-        #     total_reward = 0
-        #     for i in xrange(TEST):
-        #         observation = env.reset()
-        #         for j in xrange(env.spec.timestep_limit):
-        #             #env.render()
-        #             action = agent.action(observation) # direct action for test
-        #             observation,reward,done,_ = env.step(action)
-        #             total_reward += reward
-        #             if done:
-        #                 break
-        #     ave_reward = total_reward/TEST
-        #     print ('epoch: ',epoch,'Evaluation Average Reward:',ave_reward)
-        #     plotter.plot(env)
-
-    # env.monitor.close()
     env.close()
 
 if __name__ == '__main__':
