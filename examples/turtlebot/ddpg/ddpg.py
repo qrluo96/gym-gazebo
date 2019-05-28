@@ -81,6 +81,7 @@ class DDPG:
 
     def noise_action(self,state):
         # Select action a_t according to the current policy and exploration noise
+        print(state)
         action = self.actor_network.action(state)
         return action+self.exploration_noise.noise()
 
