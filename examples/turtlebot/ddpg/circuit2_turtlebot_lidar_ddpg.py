@@ -18,7 +18,7 @@ def main():
     env = gym.make('GazeboCircuit2TurtlebotLidarNn-v0')
     
     outdir = '/tmp/gazebo_gym_experiments/'
-    plotter = liveplot.LivePlot(outdir)
+    # plotter = liveplot.LivePlot(outdir)
 
     continue_execution = False
     #fill this if continue_execution=True
@@ -81,8 +81,8 @@ def main():
             stepCounter += 1
             episode_step += 1
 
-        if epoch % 100 == 0:
-            plotter.plot(env)
+        # if epoch % 100 == 0:
+        #     plotter.plot(env)
 
     env.close()
 
