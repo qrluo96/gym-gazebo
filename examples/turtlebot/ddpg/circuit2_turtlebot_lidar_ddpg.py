@@ -32,20 +32,17 @@ def main():
     #REMEMBER!: turtlebot_nn_setup.bash must be executed.
     env = gym.make('GazeboCircuit2TurtlebotLidarNn-v0')
     agent = DDPG(env)
+    
     outdir = '/tmp/gazebo_gym_experiments/'
-    path = '/tmp/turtle_c2_dqn_ep'
     plotter = liveplot.LivePlot(outdir)
 
-    # continue_execution = False
+    continue_execution = False
     #fill this if continue_execution=True
-    resume_epoch = '200' # change to epoch to continue from
-    resume_path = path + resume_epoch
-    # monitor_path = resume_path
 
     steps = 1000
 
     env._max_episode_steps = steps
-    # env = gym.wrappers.Monitor(env, outdir,force=not continue_execution, resume=continue_execution)
+    env = gym.wrappers.Monitor(env, outdir,force=not continue_execution, resume=continue_execution)
 
     last100Scores = [0] * 100
     last100ScoresIndex = 0
@@ -62,13 +59,12 @@ def main():
         done = False
         episode_step = 0
 
-        # Train
-        # for step in xrange(env.spec.timestep_limit):
         # run until env returns done
         while not done:
+            # env.render()
             action = agent.noise_action(observation)
 
-            newObservation, reward, done, info = env.step(action)
+            newObservation, reward, done, _ = env.step(action)
 
             cumulated_reward += reward
             if highest_reward < cumulated_reward:
