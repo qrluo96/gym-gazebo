@@ -16,7 +16,6 @@ TEST = 10
 def main():
     #REMEMBER!: turtlebot_nn_setup.bash must be executed.
     env = gym.make('GazeboCircuit2TurtlebotLidarNn-v0')
-    agent = DDPG(env)
     
     outdir = '/tmp/gazebo_gym_experiments/'
     plotter = liveplot.LivePlot(outdir)
@@ -28,6 +27,8 @@ def main():
 
     env._max_episode_steps = steps
     env = gym.wrappers.Monitor(env, outdir,force=not continue_execution, resume=continue_execution)
+    
+    agent = DDPG(env)
 
     last100Scores = [0] * 100
     last100ScoresIndex = 0

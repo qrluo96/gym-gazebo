@@ -26,8 +26,10 @@ class DDPG:
         self.environment = env
         # Randomly initialize actor network and critic network
         # with both their target networks
-        self.state_dim = env.observation_space.shape[0]
-        self.action_dim = env.action_space.shape[0]
+        # self.state_dim = env.observation_space.shape[0]
+        self.state_dim = 5
+        # self.action_dim = env.action_space.shape[0]
+        self.action_dim = 3
 
         self.sess = tf.InteractiveSession()
 
