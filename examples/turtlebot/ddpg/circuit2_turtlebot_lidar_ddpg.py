@@ -9,6 +9,7 @@ import gym
 from gym import wrappers
 import gym_gazebo
 import time
+import numpy
 from distutils.dir_util import copy_tree
 import os
 import json
@@ -53,7 +54,7 @@ def main():
     start_time = time.time()
 
     print("Start iteration")
-    
+
     #start iterating from 'current epoch'.
     for epoch in xrange(EPOCHS):
         observation = env.reset()

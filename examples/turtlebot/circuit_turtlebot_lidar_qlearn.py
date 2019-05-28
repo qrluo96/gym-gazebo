@@ -5,7 +5,6 @@ import gym_gazebo
 import time
 import numpy
 import random
-import time
 import liveplot
 import qlearn
 
