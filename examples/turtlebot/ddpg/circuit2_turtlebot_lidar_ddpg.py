@@ -49,12 +49,15 @@ def main():
 
     for episode in xrange(EPISODES):
         observation = env.reset()
-        #print "episode:",episode
+        done = False
+
         # Train
-        for step in xrange(env.spec.timestep_limit):
+        # for step in xrange(env.spec.timestep_limit):
+        # run until env returns done
+        while not done:
             action = agent.noise_action(observation)
-            newObservation,reward,done,_ = env.step(action)
-            agent.perceive(observation,action,reward,newObservation,done)
+            newObservation, reward, done, info = env.step(action)
+            agent.perceive(observation, action, reward, newObservation, done)
             observation = newObservation
             if done:
                 break
@@ -62,11 +65,11 @@ def main():
         if episode % 100 == 0 and episode > 100:
             total_reward = 0
             for i in xrange(TEST):
-                state = env.reset()
+                observation = env.reset()
                 for j in xrange(env.spec.timestep_limit):
                     #env.render()
-                    action = agent.action(state) # direct action for test
-                    state,reward,done,_ = env.step(action)
+                    action = agent.action(observation) # direct action for test
+                    observation,reward,done,_ = env.step(action)
                     total_reward += reward
                     if done:
                         break
