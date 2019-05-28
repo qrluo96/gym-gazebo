@@ -53,9 +53,9 @@ def main():
         # Train
         for step in xrange(env.spec.timestep_limit):
             action = agent.noise_action(observation)
-            next_state,reward,done,_ = env.step(action)
-            agent.perceive(observation,action,reward,next_state,done)
-            state = next_state
+            newObservation,reward,done,_ = env.step(action)
+            agent.perceive(observation,action,reward,newObservation,done)
+            observation = newObservation
             if done:
                 break
         # Testing:
