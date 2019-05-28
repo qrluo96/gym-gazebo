@@ -26,7 +26,7 @@ def clear_monitor_files(training_dir):
         print(file)
         os.unlink(file)
 
-EPISODES = 1000
+EPOCHS = 1000
 TEST = 10
 def main():
     #REMEMBER!: turtlebot_nn_setup.bash must be executed.
@@ -36,48 +36,88 @@ def main():
     path = '/tmp/turtle_c2_dqn_ep'
     plotter = liveplot.LivePlot(outdir)
 
-    continue_execution = False
+    # continue_execution = False
     #fill this if continue_execution=True
     resume_epoch = '200' # change to epoch to continue from
     resume_path = path + resume_epoch
-    monitor_path = resume_path
+    # monitor_path = resume_path
 
     steps = 1000
 
     env._max_episode_steps = steps
     # env = gym.wrappers.Monitor(env, outdir,force=not continue_execution, resume=continue_execution)
 
-    for episode in xrange(EPISODES):
+    last100Scores = [0] * 100
+    last100ScoresIndex = 0
+    last100Filled = False
+    stepCounter = 0
+    highest_reward = 0
+
+    start_time = time.time()
+
+    #start iterating from 'current epoch'.
+    for epoch in xrange(EPOCHS):
         observation = env.reset()
+        cumulated_reward = 0
         done = False
+        episode_step = 0
 
         # Train
         # for step in xrange(env.spec.timestep_limit):
         # run until env returns done
         while not done:
             action = agent.noise_action(observation)
+
             newObservation, reward, done, info = env.step(action)
+
+            cumulated_reward += reward
+            if highest_reward < cumulated_reward:
+                highest_reward = cumulated_reward
+
             agent.perceive(observation, action, reward, newObservation, done)
+
             observation = newObservation
+            
             if done:
-                break
-        # Testing:
-        if episode % 100 == 0 and episode > 100:
-            total_reward = 0
-            for i in xrange(TEST):
-                observation = env.reset()
-                for j in xrange(env.spec.timestep_limit):
-                    #env.render()
-                    action = agent.action(observation) # direct action for test
-                    observation,reward,done,_ = env.step(action)
-                    total_reward += reward
-                    if done:
-                        break
-            ave_reward = total_reward/TEST
-            print ('episode: ',episode,'Evaluation Average Reward:',ave_reward)
+                last100Scores[last100ScoresIndex] = episode_step
+                last100ScoresIndex += 1
+                if last100ScoresIndex >= 100:
+                    last100Filled = True
+                    last100ScoresIndex = 0
+                if not last100Filled:
+                    print ("EP " + str(epoch) + " - " + format(episode_step + 1) + "/" + str(steps))
+                else :
+                    m, s = divmod(int(time.time() - start_time), 60)
+                    h, m = divmod(m, 60)
+                    print ("EP " + str(epoch) + " - " + format(episode_step + 1) + "/" + str(steps) + " Episode steps - last100 Steps : " + str((sum(last100Scores) / len(last100Scores))) + " - Cumulated R: " + str(cumulated_reward) + "     Time: %d:%02d:%02d" % (h, m, s))
+
+                    if (epoch)%100==0:
+                        env._flush()
+
+            stepCounter += 1
+            episode_step += 1
+
+        if epoch % 100 == 0:
             plotter.plot(env)
 
-    env.monitor.close()
+        # # Testing:
+        # if epoch % 100 == 0 and epoch > 100:
+        #     total_reward = 0
+        #     for i in xrange(TEST):
+        #         observation = env.reset()
+        #         for j in xrange(env.spec.timestep_limit):
+        #             #env.render()
+        #             action = agent.action(observation) # direct action for test
+        #             observation,reward,done,_ = env.step(action)
+        #             total_reward += reward
+        #             if done:
+        #                 break
+        #     ave_reward = total_reward/TEST
+        #     print ('epoch: ',epoch,'Evaluation Average Reward:',ave_reward)
+        #     plotter.plot(env)
+
+    # env.monitor.close()
+    env.close()
 
 if __name__ == '__main__':
     main()
