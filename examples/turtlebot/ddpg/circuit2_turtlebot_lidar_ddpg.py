@@ -52,6 +52,8 @@ def main():
 
     start_time = time.time()
 
+    print("Start iteration")
+    
     #start iterating from 'current epoch'.
     for epoch in xrange(EPOCHS):
         observation = env.reset()
