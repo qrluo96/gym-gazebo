@@ -84,7 +84,7 @@ class DDPG:
         # print(state)
         action = self.actor_network.action(state)
         action += self.exploration_noise.noise()
-        
+
         return np.argmax(action)
 
     def action(self,state):
@@ -106,13 +106,4 @@ class DDPG:
         # Re-iniitialize the random process when an episode ends
         if done:
             self.exploration_noise.reset()
-
-
-
-
-
-
-
-
-
 

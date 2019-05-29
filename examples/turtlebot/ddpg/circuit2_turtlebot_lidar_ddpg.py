@@ -11,7 +11,6 @@ import json
 import liveplot
 from ddpg import *
 
-EPOCHS = 1000
 TEST = 10
 def main():
     #REMEMBER!: turtlebot_nn_setup.bash must be executed.
@@ -23,6 +22,7 @@ def main():
     continue_execution = False
     #fill this if continue_execution=True
 
+    epochs = 1000
     steps = 1000
 
     env._max_episode_steps = steps
@@ -41,7 +41,7 @@ def main():
     print("Start iteration")
 
     #start iterating from 'current epoch'.
-    for epoch in xrange(EPOCHS):
+    for epoch in xrange(epochs):
         observation = env.reset()
         cumulated_reward = 0
         done = False
@@ -77,7 +77,7 @@ def main():
                     print ("EP " + str(epoch) + " - " + format(episode_step + 1) + "/" + str(steps) + " Episode steps - last100 Steps : " + str((sum(last100Scores) / len(last100Scores))) + " - Cumulated R: " + str(cumulated_reward) + "     Time: %d:%02d:%02d" % (h, m, s))
 
                     if (epoch)%100==0:
-                        env._flush()
+                        env._flush(force=True)
 
             stepCounter += 1
             episode_step += 1
