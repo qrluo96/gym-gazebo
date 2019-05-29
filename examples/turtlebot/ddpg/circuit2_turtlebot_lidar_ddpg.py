@@ -50,7 +50,7 @@ def main():
         # run until env returns done
         while not done:
             # env.render()
-            print(observation)
+            # print(observation)
             action = agent.noise_action(observation)
 
             newObservation, reward, done, _ = env.step(action)
