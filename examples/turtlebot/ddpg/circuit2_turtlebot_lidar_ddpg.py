@@ -8,7 +8,7 @@ import numpy
 from distutils.dir_util import copy_tree
 import os
 import json
-import liveplot
+# import liveplot
 from ddpg import *
 
 TEST = 10
