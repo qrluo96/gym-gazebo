@@ -4,8 +4,8 @@ import numpy as np
 import math
 
 
-LAYER1_SIZE = 400
-LAYER2_SIZE = 300
+LAYER1_SIZE = 500
+LAYER2_SIZE = 500
 LEARNING_RATE = 1e-4
 TAU = 0.001
 L2 = 0.01
