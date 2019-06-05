@@ -86,7 +86,7 @@ class DDPG:
         action += self.exploration_noise.noise()
 
         # return np.argmax(action)
-        return 10 + np.around(action)
+        return 10 + np.around(action)*10
 
     def action(self,state):
         action = self.actor_network.action(state)
