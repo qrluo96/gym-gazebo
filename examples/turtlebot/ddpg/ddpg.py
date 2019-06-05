@@ -87,7 +87,7 @@ class DDPG:
 
         # return np.argmax(action)
         print(action)
-        return 10 + np.around(action)*10
+        return 10 + np.around(action)
 
     def action(self,state):
         action = self.actor_network.action(state)

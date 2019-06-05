@@ -11,6 +11,7 @@ LAYER2_SIZE = 500
 LEARNING_RATE = 1e-5
 TAU = 0.001
 BATCH_SIZE = 64
+BOUND = 10
 
 class ActorNetwork:
 	"""docstring for ActorNetwork"""
@@ -59,6 +60,7 @@ class ActorNetwork:
 		layer2_bn = self.batch_norm_layer(layer2,training_phase=is_training,scope_bn='batch_norm_2',activation=tf.nn.relu)
 
 		action_output = tf.tanh(tf.matmul(layer2_bn,W3) + b3)
+		action_output = tf.multiply(action_output, BOUND)
 
 		return state_input,action_output,[W1,b1,W2,b2,W3,b3],is_training
 
