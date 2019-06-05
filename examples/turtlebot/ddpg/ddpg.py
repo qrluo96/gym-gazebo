@@ -29,7 +29,7 @@ class DDPG:
         # self.state_dim = env.observation_space.shape[0]
         self.state_dim = 100
         # self.action_dim = env.action_space.shape[0]
-        self.action_dim = 21
+        self.action_dim = 1
 
         self.sess = tf.InteractiveSession()
 
@@ -85,7 +85,8 @@ class DDPG:
         action = self.actor_network.action(state)
         action += self.exploration_noise.noise()
 
-        return np.argmax(action)
+        # return np.argmax(action)
+        return 10 + np.around(action)
 
     def action(self,state):
         action = self.actor_network.action(state)
